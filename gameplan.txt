@@ -1,0 +1,22 @@
+Goal:
+    Music guessing game
+
+Details:
+    The player will be able to add songs and then try to guess them in the game. 
+    Will have a menu with option a) Play Game, b) Add Song, c) Highscore
+
+Plan:
+    for a):
+        Add multithreading to play the song
+        Add multithreading for timer. Points will depend on the time it took you to guess the song
+        Add multithreading to get the answer
+        Ask for player name in the end
+        For guessing:
+            (Easier) Add a list of answers to choose from
+            (Harder) Add string distance to make the answer not exact 
+    for b):
+        Add a list for the directories of songs
+        Add possibility to download from url
+    for c):
+        Add CSV file to save the player Highscores
+        (optional) Use statistics library somehow
