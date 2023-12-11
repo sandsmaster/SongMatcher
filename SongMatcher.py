@@ -20,8 +20,26 @@ def show_menu():
     print("c) Highscores")
 
 
+def play_song(media_player):
+    src = load(r'samples/ei_tuka_ei_tei.mp3')
+    media_player.queue(src)
+    media_player.play()
+
+
+def play_round(media_player):
+    play_song(media_player)
+    print(f"Total Song Duration: {media_player.source.duration}")
+    print("Playing random part...")
+    time.sleep(media_player.source.duration)
+    
+
 def game():
-    pass
+    print('''The rules are simple. You have to guess the song. 
+          Press Enter when you are ready to answear.
+          You have 1-30 seconds to guess the song''')
+
+    player = Player()
+    play_round(player)
 
 
 def add_song():
