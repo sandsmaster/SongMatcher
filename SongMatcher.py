@@ -8,7 +8,7 @@ def pick_option(picks_list):
     # with asyncio.futures.ThreadPoolExecutor() as executor:
     #     pass
     while True:
-        choice = input("Pick an option: ")
+        choice = input("Pick an option: ").strip()
         if choice in picks_list:
             return choice
         else:
@@ -50,17 +50,33 @@ def play_round(media_player):
     guess = int(pick_option([str(x + 1) for x in range(3)])) - 1
 
     if correct_guess == options[guess]:
+        print("Good Job! You guessed right.")
         return True
+    print("Nice try, but you didn't guess")
     return False
     
 
-def game():
-    print('''The rules are simple. You have to guess the song. 
-          Press Enter when you are ready to answear.
-          You have 1-30 seconds to guess the song''')
+def play_again(score):
+    print("The game finished!")
+    print(f"Your final score is {score}")
+    if input("Play again? (y)es/(n)o: ").strip().lower() in ["y", "yes"]:
+        return True
+    return False
 
-    player = Player()
-    print(play_round(player))
+
+def game():
+    new_game = True
+    while new_game:
+        score = 0
+        print('''The rules are simple. You have to guess the song. 
+            Press Enter when you are ready to answear.
+            You have 1-30 seconds to guess the song''')
+
+        player = Player()
+        for round_num in range(3):
+            if (play_round(player)):
+                score += 1
+        new_game = play_again(score)
 
 
 def add_song():
