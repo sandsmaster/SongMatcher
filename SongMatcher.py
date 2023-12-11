@@ -1,6 +1,6 @@
 from pyglet.media import Player, load
 import asyncio.futures
-from random import randint
+from random import randint, shuffle
 import time
 
 def pick_option(picks_list):
@@ -24,7 +24,7 @@ def show_menu(choice = "main", *args):
         print("\nWhich is the song playing?:")
         # args must have song names inside of it
         for i, song in enumerate(args):
-            print(f"{chr(i+65)}) {song}")   # print the song name with option letter next to it
+            print(f"{i + 1}) {song}")   # print the song name with option letter next to it
 
 
 def play_song_from_time(media_player, song_path, play_from = 0, random_time = True):
@@ -37,11 +37,21 @@ def play_song_from_time(media_player, song_path, play_from = 0, random_time = Tr
 
 
 def play_round(media_player):
+    correct_guess = r'samples/ei_tuka_ei_tei.mp3'
+
     play_song_from_time(media_player, r'samples/ei_tuka_ei_tei.mp3', random_time=True)
     print(f"Total Song Duration: {media_player.source.duration}")
     print("Playing random part...")
-    show_menu("songs", r'samples/ei_tuka_ei_tei.mp3', r'samples/high.mp3', r'samples/pianata_toqga.mp3')
-    time.sleep(20)
+
+    options = [r'samples/ei_tuka_ei_tei.mp3', r'samples/high.mp3', r'samples/pianata_toqga.mp3']
+    shuffle(options)
+    show_menu("songs", *options)
+    
+    guess = int(pick_option([str(x + 1) for x in range(3)])) - 1
+
+    if correct_guess == options[guess]:
+        return True
+    return False
     
 
 def game():
@@ -50,7 +60,7 @@ def game():
           You have 1-30 seconds to guess the song''')
 
     player = Player()
-    play_round(player)
+    print(play_round(player))
 
 
 def add_song():
