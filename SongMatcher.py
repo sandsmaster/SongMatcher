@@ -15,10 +15,11 @@ def pick_option(picks_list):
             print(f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
 
 
-def show_menu():
-    print("a) Play game")
-    print("b) Add a song")
-    print("c) Highscores")
+def show_menu(choice = "main"):
+    if choice == "main":
+        print("a) Play game")
+        print("b) Add a song")
+        print("c) Highscores")
 
 
 def play_song_from_time(media_player, song_path, play_from = 0, random_time = True):
