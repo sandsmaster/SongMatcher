@@ -1,5 +1,6 @@
 from pyglet.media import Player, load
 import asyncio.futures
+from random import randint
 import time
 
 def pick_option(picks_list):
@@ -20,17 +21,20 @@ def show_menu():
     print("c) Highscores")
 
 
-def play_song(media_player):
-    src = load(r'samples/ei_tuka_ei_tei.mp3')
+def play_song_from_time(media_player, song_path, play_from = 0, random_time = True):
+    src = load(song_path)
     media_player.queue(src)
+    if random_time:
+        play_from = randint(0, int(media_player.source.duration))
+    media_player.source.seek(play_from)
     media_player.play()
 
 
 def play_round(media_player):
-    play_song(media_player)
+    play_song_from_time(media_player, r'samples/ei_tuka_ei_tei.mp3', random_time=True)
     print(f"Total Song Duration: {media_player.source.duration}")
     print("Playing random part...")
-    time.sleep(media_player.source.duration)
+    time.sleep(20)
     
 
 def game():
