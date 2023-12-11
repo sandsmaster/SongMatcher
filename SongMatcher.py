@@ -15,18 +15,23 @@ def pick_option(picks_list):
             print(f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
 
 
-def show_menu(choice = "main"):
+def show_menu(choice = "main", *args):
     if choice == "main":
         print("a) Play game")
         print("b) Add a song")
         print("c) Highscores")
+    elif choice == "songs":
+        print("\nWhich is the song playing?:")
+        # args must have song names inside of it
+        for i, song in enumerate(args):
+            print(f"{chr(i+65)}) {song}")   # print the song name with option letter next to it
 
 
 def play_song_from_time(media_player, song_path, play_from = 0, random_time = True):
     src = load(song_path)
     media_player.queue(src)
     if random_time:
-        play_from = randint(0, int(media_player.source.duration))
+        play_from = randint(0, int(media_player.source.duration)-20)
     media_player.source.seek(play_from)
     media_player.play()
 
@@ -35,6 +40,7 @@ def play_round(media_player):
     play_song_from_time(media_player, r'samples/ei_tuka_ei_tei.mp3', random_time=True)
     print(f"Total Song Duration: {media_player.source.duration}")
     print("Playing random part...")
+    show_menu("songs", r'samples/ei_tuka_ei_tei.mp3', r'samples/high.mp3', r'samples/pianata_toqga.mp3')
     time.sleep(20)
     
 
