@@ -44,7 +44,7 @@ def play_round(media_player):
     correct_guess = choice(options) # pick random song to play
 
     play_song_from_time(media_player, correct_guess, random_time=True)
-    print(f"Total Song Duration: {media_player.source.duration}")
+    print(f"Total Song Duration: {media_player.source.duration:.2F} seconds")
     print("Playing random part...")
 
     shuffle(options)
@@ -54,15 +54,15 @@ def play_round(media_player):
                                                                                 # because user doesn't pick 0-based options
 
     if correct_guess == options[guess]:
-        print("Good Job! You guessed right.")
+        print("\nGood Job! You guessed right.\n")
         return True
-    print("Nice try, but you didn't guess")
+    print("\nNice try, but you didn't guess.\n")
     return False
     
 
 def play_again(score):
-    print("The game finished!")
-    print(f"Your final score is {score}")
+    print("\nThe game finished!")
+    print(f"Your final score is {score}.")
     if input("Play again? (y)es/(n)o: ").strip().lower() in ["y", "yes"]:
         return True
     return False
