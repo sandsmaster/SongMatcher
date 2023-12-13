@@ -1,10 +1,12 @@
 from pyglet.media import Player, load
 import asyncio.futures
-from random import randint, shuffle
-import time
+from random import randint, shuffle, choice
+from os import listdir
 
-def pick_option(picks_list):
-    show_menu()
+
+def pick_option(picks_list, menu_arg = None):
+    if menu_arg:
+        show_menu()
     # with asyncio.futures.ThreadPoolExecutor() as executor:
     #     pass
     while True:
@@ -37,17 +39,19 @@ def play_song_from_time(media_player, song_path, play_from = 0, random_time = Tr
 
 
 def play_round(media_player):
-    correct_guess = r'samples/ei_tuka_ei_tei.mp3'
+    ANSWER_COUNT = 3
+    options = [(r"samples/" + song) for song in listdir("samples/.")]  # get all songs with "samples/" infront of them
+    correct_guess = choice(options) # pick random song to play
 
-    play_song_from_time(media_player, r'samples/ei_tuka_ei_tei.mp3', random_time=True)
+    play_song_from_time(media_player, correct_guess, random_time=True)
     print(f"Total Song Duration: {media_player.source.duration}")
     print("Playing random part...")
 
-    options = [r'samples/ei_tuka_ei_tei.mp3', r'samples/high.mp3', r'samples/pianata_toqga.mp3']
     shuffle(options)
     show_menu("songs", *options)
     
-    guess = int(pick_option([str(x + 1) for x in range(3)])) - 1
+    guess = int(pick_option([str(num + 1) for num in range(ANSWER_COUNT)])) - 1 # conver range() to str and decrease 1, 
+                                                                                # because user doesn't pick 0-based options
 
     if correct_guess == options[guess]:
         print("Good Job! You guessed right.")
@@ -89,7 +93,7 @@ def highscore():
 
 def main():
     options = ["a", "b", "c"]
-    choice = pick_option(options)
+    choice = pick_option(options, "main")
     if choice == options[0]:
         game()
     elif choice == options[1]:

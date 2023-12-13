@@ -20,3 +20,11 @@ Plan:
     for c):
         Add CSV file to save the player Highscores
         (optional) Use statistics library somehow
+
+
+Notes:
+    Hardcoded:
+        ln.40 - correct_guess
+        ln.42 - song path
+        ln.46 - options
+        ln.50 - song range
