@@ -32,6 +32,15 @@ def show_menu(choice = "main", *args):
 def play_song_from_time(media_player, song_path, play_from = 0, random_time = True):
     src = load(song_path)
     media_player.queue(src)
+    if media_player.playing:
+        print(f"==== {src.duration}")
+        print(f"==== {media_player.source.duration}")
+        if media_player.source.duration != src.duration:
+            print("☻ Went to next source!")
+            media_player.delete()
+            media_player.next_source()
+            media_player.pause()
+
     if random_time:
         play_from = randint(0, int(media_player.source.duration)-20)
     media_player.source.seek(play_from)
@@ -41,17 +50,16 @@ def play_song_from_time(media_player, song_path, play_from = 0, random_time = Tr
 def play_round(media_player):
     ANSWER_COUNT = 3
     options = [(r"samples/" + song) for song in listdir("samples/.")]  # get all songs with "samples/" infront of them
+    shuffle(options)
     correct_guess = choice(options) # pick random song to play
-
+    
     play_song_from_time(media_player, correct_guess, random_time=True)
-    print(f"Total Song Duration: {media_player.source.duration:.2F} seconds")
     print("Playing random part...")
 
-    shuffle(options)
     show_menu("songs", *options)
-    
+    # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
     guess = int(pick_option([str(num + 1) for num in range(ANSWER_COUNT)])) - 1 # conver range() to str and decrease 1, 
-                                                                                # because user doesn't pick 0-based options
+                                                                                # because user picks 1-based options
 
     if correct_guess == options[guess]:
         print("\nGood Job! You guessed right.\n")
