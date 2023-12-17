@@ -29,8 +29,8 @@ def show_menu(choice = "main", *args):
             print(f"{i + 1}) {song}")   # print the song name with option letter next to it
 
 
-def play_song_from_time(media_player, song_path, play_from = 0, random_time = True):
-    src = load(song_path)
+def play_song_from_time(file_path, media_player, play_from = 0, random_time = True):
+    src = load(file_path)
     media_player.queue(src)
     if media_player.playing:
         if media_player.source.duration != src.duration:
@@ -45,13 +45,14 @@ def play_song_from_time(media_player, song_path, play_from = 0, random_time = Tr
     media_player.play()
 
 
-def play_round(media_player):
+def play_round():
     ANSWER_COUNT = 3
-    options = [(r"samples/" + song) for song in listdir("samples/.")]  # get all songs with "samples/" infront of them
+    options = listdir("samples/.")  # get all songs with "samples/" infront of them
     shuffle(options)
     correct_guess = choice(options) # pick random song to play
     
-    play_song_from_time(media_player, correct_guess, random_time=True)
+    media_player = Player()
+    play_song_from_time(f'samples/{correct_guess}', media_player, random_time=True)
     print("Playing random part...")
 
     show_menu("songs", *options)
@@ -78,10 +79,8 @@ def game():
     new_game = True
     while new_game:
         score = 0
-
-        player = Player()
         for round_num in range(3):
-            if (play_round(player)):
+            if (play_round()):
                 score += 1
         new_game = play_again(score)
 
