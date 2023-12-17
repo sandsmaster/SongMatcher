@@ -33,8 +33,6 @@ def play_song_from_time(media_player, song_path, play_from = 0, random_time = Tr
     src = load(song_path)
     media_player.queue(src)
     if media_player.playing:
-        print(f"==== {src.duration}")
-        print(f"==== {media_player.source.duration}")
         if media_player.source.duration != src.duration:
             print("☻ Went to next source!")
             media_player.delete()
@@ -80,9 +78,6 @@ def game():
     new_game = True
     while new_game:
         score = 0
-        print('''The rules are simple. You have to guess the song. 
-            Press Enter when you are ready to answear.
-            You have 1-30 seconds to guess the song''')
 
         player = Player()
         for round_num in range(3):
