@@ -49,6 +49,7 @@ def play_round():
     ANSWER_COUNT = 3
     options = listdir("samples/.")  # get all songs with "samples/" infront of them
     shuffle(options)
+    options = options[0:3]
     correct_guess = choice(options) # pick random song to play
     
     media_player = Player()
