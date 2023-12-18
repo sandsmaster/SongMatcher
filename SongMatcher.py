@@ -4,6 +4,8 @@ from random import randint, shuffle, choice
 from os import listdir, path
 from shutil import copyfile
 import ctypes, sys
+import tkinter as tk
+from tkinter import filedialog
 
 
 def pick_option(picks_list, menu_arg = None):
@@ -91,7 +93,7 @@ def game():
 
 def add_song():
     dst = r"C:\Users\botcho\Desktop\Projects\Py Stuff\SongMatcher\samples"
-    src = input("Please enter song path. [Exit]").strip()
+    src = filedialog.askopenfilename()
     while not path.isfile(src) and not (src.lower() in ["e", "exit", "quit"]):
         # while file isn't found and user doesn't want to exit 
         print("This is not a valid file. Please try again!")
@@ -118,6 +120,9 @@ def get_admin():
 def main():
     get_admin()
     options = ["a", "b", "c", "q"]
+    root = tk.Tk()  # used to open file dialog
+    root.withdraw()
+
     while True:
         choice = pick_option(options, "main")
         if choice == options[0]:
