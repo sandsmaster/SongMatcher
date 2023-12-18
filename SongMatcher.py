@@ -95,7 +95,7 @@ def highscore():
 
 
 def main():
-    options = ["a", "b", "c"]
+    options = ["a", "b", "c", "q"]
     while True:
         choice = pick_option(options, "main")
         if choice == options[0]:
@@ -104,7 +104,8 @@ def main():
             add_song()
         elif choice == options[2]:
             highscore()
-
+        elif choice == options[3]:
+            break
 
 
 if __name__ == "__main__":
