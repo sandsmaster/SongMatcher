@@ -1,7 +1,8 @@
 from pyglet.media import Player, load
 import asyncio.futures
 from random import randint, shuffle, choice
-from os import listdir
+from os import listdir, path
+from shutil import copyfile
 
 
 def pick_option(picks_list, menu_arg = None):
@@ -88,7 +89,13 @@ def game():
 
 
 def add_song():
-    pass
+    dst = r"C:\Users\botcho\Desktop\Projects\Py Stuff\SongMatcher\samples"
+    src = input("Please enter song path. [Exit]").strip()
+    while not path.isfile(src) and not (src.lower() in ["e", "exit", "quit"]):
+        # while file isn't found and user doesn't want to exit 
+        print("This is not a valid file. Please try again!")
+        src = input("Please enter song path").strip()
+    copyfile(src, dst)
 
 
 def highscore():
