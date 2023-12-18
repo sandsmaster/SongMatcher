@@ -96,13 +96,14 @@ def highscore():
 
 def main():
     options = ["a", "b", "c"]
-    choice = pick_option(options, "main")
-    if choice == options[0]:
-        game()
-    elif choice == options[1]:
-        add_song()
-    elif choice == options[2]:
-        highscore()
+    while True:
+        choice = pick_option(options, "main")
+        if choice == options[0]:
+            game()
+        elif choice == options[1]:
+            add_song()
+        elif choice == options[2]:
+            highscore()
 
 
 
