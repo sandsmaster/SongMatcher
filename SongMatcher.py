@@ -3,6 +3,7 @@ import asyncio.futures
 from random import randint, shuffle, choice
 from os import listdir, path
 from shutil import copyfile
+import ctypes, sys
 
 
 def pick_option(picks_list, menu_arg = None):
@@ -102,7 +103,20 @@ def highscore():
     pass
 
 
+def is_admin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+
+def get_admin():
+    if not is_admin():
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+
+
 def main():
+    get_admin()
     options = ["a", "b", "c", "q"]
     while True:
         choice = pick_option(options, "main")
