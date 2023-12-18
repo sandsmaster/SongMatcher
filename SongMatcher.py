@@ -22,6 +22,7 @@ def show_menu(choice = "main", *args):
         print("a) Play game")
         print("b) Add a song")
         print("c) Highscores")
+        print("q) Exit")
     elif choice == "songs":
         print("\nWhich is the song playing?:")
         # args must have song names inside of it
