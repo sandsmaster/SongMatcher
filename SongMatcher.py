@@ -1,3 +1,4 @@
+import time
 from pyglet.media import Player, load
 import asyncio.futures
 from random import randint, shuffle, choice
@@ -92,13 +93,15 @@ def game():
 
 
 def add_song():
-    dst = r"C:\Users\botcho\Desktop\Projects\Py Stuff\SongMatcher\samples"
     src = filedialog.askopenfilename()
-    while not path.isfile(src) and not (src.lower() in ["e", "exit", "quit"]):
-        # while file isn't found and user doesn't want to exit 
-        print("This is not a valid file. Please try again!")
-        src = input("Please enter song path").strip()
-    copyfile(src, dst)
+    dst = r"C:\Users\botcho\Desktop\Projects\Py Stuff\SongMatcher\samples" + "\\" + src.split("/")[-1]    # Take the name of the song
+    print(dst)
+    time.sleep(1)
+    if path.isfile(src):    
+        copyfile(src, dst)
+        print("Song added successfully!")
+    else:
+        print("No song added.")
 
 
 def highscore():
