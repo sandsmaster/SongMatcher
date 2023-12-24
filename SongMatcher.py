@@ -107,25 +107,34 @@ def add_song():
         print("No song added.")
 
 
+def load_highscore(score_file_name, score_header):
+    print("Reading Highscores\n")
+    scores = []
+
+    with open(score_file_name, "r") as score_file:  # read highscores file
+        score_csv = DictReader(score_file)
+        for row in score_csv:
+            scores.append(row.values())
+    return scores
+
+
+def create_highscore_csv(score_file_name, score_header):
+    with open(score_file_name, "w") as file:
+        score_csv = writer(file)
+        score_csv.writerow(score_header)
+
+
 def highscore():
     score_file_name = "highscore.csv"
     score_header = ["Player", "Score"]
 
-    if path.isfile(score_file_name):        # if file exists
-        print("Reading Highscores\n")
-        scores = []
-
-        with open(score_file_name, "r") as score_file:  # read highscores file
-            score_csv = DictReader(score_file)
-            for row in score_csv:
-                scores.append(row.values())
-            print(tabulate(scores, score_header))   # pretty print
+    if path.isfile(score_file_name):                            # if file exists
+        scores = load_highscore(score_file_name, score_header)  # get highscore data
+        print(tabulate(scores, score_header))                   # pretty print
 
     else:   # if file doesn't exist
         print("Doesn't exist. \nCreating highscore file...")
-        with open(score_file_name, "w") as file:
-            score_csv = writer(file)
-            score_csv.writerow(score_header)
+        create_highscore_csv()
 
 
 def is_admin():
