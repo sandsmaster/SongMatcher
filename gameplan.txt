@@ -19,6 +19,8 @@ Plan:
         Add possibility to download from url
     for c):
         Add CSV file to save the player Highscores
+            - Create it if it's not there
+            - Read it if it's there
         (optional) Use statistics library somehow
 
 

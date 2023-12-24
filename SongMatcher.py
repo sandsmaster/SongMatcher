@@ -7,6 +7,9 @@ from shutil import copyfile
 import ctypes, sys
 import tkinter as tk
 from tkinter import filedialog
+from csv import DictReader, writer
+
+from tabulate import tabulate
 
 
 def pick_option(picks_list, menu_arg = None):
@@ -105,7 +108,24 @@ def add_song():
 
 
 def highscore():
-    pass
+    score_file_name = "highscore.csv"
+    score_header = ["Player", "Score"]
+
+    if path.isfile(score_file_name):        # if file exists
+        print("Reading Highscores\n")
+        scores = []
+
+        with open(score_file_name, "r") as score_file:  # read highscores file
+            score_csv = DictReader(score_file)
+            for row in score_csv:
+                scores.append(row.values())
+            print(tabulate(scores, score_header))   # pretty print
+
+    else:   # if file doesn't exist
+        print("Doesn't exist. \nCreating highscore file...")
+        with open(score_file_name, "w") as file:
+            score_csv = writer(file)
+            score_csv.writerow(score_header)
 
 
 def is_admin():
