@@ -7,10 +7,11 @@ from shutil import copyfile
 import ctypes, sys
 import tkinter as tk
 from tkinter import filedialog
-from csv import DictReader, writer
+from csv import DictReader, DictWriter, writer
 
 from tabulate import tabulate
 
+CURR_PATH = path.abspath(r'.')
 
 def pick_option(picks_list, menu_arg = None):
     if menu_arg:
@@ -85,13 +86,27 @@ def play_again(score):
     return False
 
 
-def game():
+def save_highscore(score, score_file_name, score_header):
+    with open(score_file_name, 'a') as file:
+        name = input("What's your name?: ")
+        file.write(f"\n{name},{str(score)}")
+    
+    print("Highscore successfully saved")
+
+
+def game(score_file_name, score_header):
     new_game = True
     while new_game:
         score = 0
         for round_num in range(3):
             if (play_round()):
                 score += 1
+
+        if not path.exists(path.join(CURR_PATH,score_file_name)):
+            print("File missing. Creating new one...")
+            create_highscore_csv(score_file_name, score_header)
+        save_highscore(score, score_file_name, score_header)
+        
         new_game = play_again(score)
 
 
@@ -107,7 +122,7 @@ def add_song():
         print("No song added.")
 
 
-def load_highscore(score_file_name, score_header):
+def load_highscore(score_file_name):
     print("Reading Highscores\n")
     scores = []
 
@@ -120,21 +135,17 @@ def load_highscore(score_file_name, score_header):
 
 def create_highscore_csv(score_file_name, score_header):
     with open(score_file_name, "w") as file:
-        score_csv = writer(file)
-        score_csv.writerow(score_header)
+        file.write(",".join(score_header))
 
 
-def highscore():
-    score_file_name = "highscore.csv"
-    score_header = ["Player", "Score"]
-
+def highscore(score_file_name, score_header):
     if path.isfile(score_file_name):                            # if file exists
-        scores = load_highscore(score_file_name, score_header)  # get highscore data
+        scores = load_highscore(score_file_name)  # get highscore data
         print(tabulate(scores, score_header))                   # pretty print
 
     else:   # if file doesn't exist
         print("Doesn't exist. \nCreating highscore file...")
-        create_highscore_csv()
+        create_highscore_csv(score_file_name, score_header)
 
 
 def is_admin():
@@ -150,19 +161,21 @@ def get_admin():
 
 
 def main():
-    get_admin()
+    #get_admin()
     options = ["a", "b", "c", "q"]
+    score_file_name = "highscore.csv"
+    score_header = ["Player", "Score"]
     root = tk.Tk()  # used to open file dialog
     root.withdraw()
 
     while True:
         choice = pick_option(options, "main")
         if choice == options[0]:
-            game()
+            game(score_file_name, score_header)
         elif choice == options[1]:
             add_song()
         elif choice == options[2]:
-            highscore()
+            highscore(score_file_name, score_header)
         elif choice == options[3]:
             break
 

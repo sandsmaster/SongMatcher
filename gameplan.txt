@@ -25,6 +25,10 @@ Plan:
 
 
 Notes:
+    TO-DO:
+        - Add function to sort highscores
+        - Delete previous output 
+
     Hardcoded:
         ln.40 - correct_guess
         ln.42 - song path
