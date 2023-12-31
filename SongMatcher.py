@@ -13,6 +13,8 @@ from tabulate import tabulate
 
 class SongMatcherGame():
     CURR_PATH = path.abspath(r'.')    
+    score_file_name = "highscore.csv"
+    score_header = ["Player", "Score"]
 
 
     def pick_option(self, picks_list, menu_arg = None):
@@ -72,7 +74,7 @@ class SongMatcherGame():
 
         options_clean = list(map(self.del_extension, options)) # remove extensions before showing menu
         self.show_menu("songs", *options_clean)
-        print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
+        # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
         guess = int(self.pick_option([str(num + 1) for num in range(ANSWER_COUNT)])) - 1 # conver range() to str and decrease 1, 
                                                                                     # because user picks 1-based options
 
@@ -91,15 +93,15 @@ class SongMatcherGame():
         return False
 
 
-    def save_highscore(self, score, score_file_name, score_header):
-        with open(score_file_name, 'a') as file:
+    def save_highscore(self, score):
+        with open(self.score_file_name, 'a') as file:
             name = input("What's your name?: ")
             file.write(f"\n{name},{str(score)}")
         
         print("Highscore successfully saved")
 
 
-    def game(self, score_file_name, score_header):
+    def game(self):
         ROUND_COUNT = 5
         new_game = True
         
@@ -109,10 +111,10 @@ class SongMatcherGame():
                 if (self.play_round()):
                     score += 1
 
-            if not path.exists(path.join(self.CURR_PATH,score_file_name)):
+            if not path.exists(path.join(self.CURR_PATH, self.score_file_name)):
                 print("File missing. Creating new one...")
-                self.create_highscore_csv(score_file_name, score_header)
-            self.save_highscore(score, score_file_name, score_header)
+                self.create_highscore_csv()
+            self.save_highscore(score)
             
             new_game = self.play_again(score)
 
@@ -129,30 +131,30 @@ class SongMatcherGame():
             print("No song added.")
 
 
-    def load_highscore(self, score_file_name):
+    def load_highscore(self):
         print("Reading Highscores\n")
         scores = []
 
-        with open(score_file_name, "r") as score_file:  # read highscores file
+        with open(self.score_file_name, "r") as score_file:  # read highscores file
             score_csv = DictReader(score_file)
             for row in score_csv:
                 scores.append(row.values())
         return scores
 
 
-    def create_highscore_csv(self, score_file_name, score_header):
-        with open(score_file_name, "w") as file:
-            file.write(",".join(score_header))
+    def create_highscore_csv(self):
+        with open(self.score_file_name, "w") as file:
+            file.write(",".join(self.score_header))
 
 
-    def highscore(self, score_file_name, score_header):
-        if path.isfile(score_file_name):                            # if file exists
-            scores = self.load_highscore(score_file_name)  # get highscore data
-            print(tabulate(scores, score_header))                   # pretty print
+    def highscore(self):
+        if path.isfile(self.score_file_name):                            # if file exists
+            scores = self.load_highscore()  # get highscore data
+            print(tabulate(scores, self.score_header))                   # pretty print
 
         else:   # if file doesn't exist
             print("Doesn't exist. \nCreating highscore file...")
-            self.create_highscore_csv(score_file_name, score_header)
+            self.create_highscore_csv()
 
 
     def is_admin(self):
@@ -170,20 +172,18 @@ class SongMatcherGame():
     def main(self):
         #get_admin()
         options = ["a", "b", "c", "q"]
-        score_file_name = "highscore.csv"
-        score_header = ["Player", "Score"]
         root = tk.Tk()  # used to open file dialog
         root.withdraw()
 
         while True:
             choice = self.pick_option(options, "main")
-            if choice == options[0]:
-                self.game(score_file_name, score_header)
-            elif choice == options[1]:
+            if choice == options[0]:    # a
+                self.game()
+            elif choice == options[1]:  # b
                 self.add_song()
-            elif choice == options[2]:
-                self.highscore(score_file_name, score_header)
-            elif choice == options[3]:
+            elif choice == options[2]:  # c
+                self.highscore()
+            elif choice == options[3]:  # q
                 break
 
 
