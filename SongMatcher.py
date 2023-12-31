@@ -32,7 +32,13 @@ class SongMatcherGame():
                 print(f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
 
 
-    def show_menu(self, choice = "main", *args):
+    def clear_scr(self):
+        print("\033[H\033[J", end="")
+
+
+    def show_menu(self, choice = "main", *args, clear_screen=True):
+        if clear_screen:
+            self.clear_scr()
         if choice == "main":
             print("a) Play game")
             print("b) Add a song")
@@ -76,7 +82,8 @@ class SongMatcherGame():
         print("Playing random song...")
 
         options_clean = list(map(self.del_extension, options)) # remove extensions before showing menu
-        self.show_menu("songs", *options_clean)
+
+        self.show_menu("songs", *options_clean, clear_screen=False)
         # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
         guess = int(self.pick_option([str(num + 1) for num in range(self.answer_count)])) - 1 # conver range() to str and decrease 1, 
                                                                                     # because user picks 1-based options

@@ -29,9 +29,7 @@ Notes:
         - Add function to sort highscores
         - Limit highscores to 10 best records
         - Delete previous output 
-        - Rewrite code to be class based and not function based
         - Simplify functions by combining smaller ones
-        - ln. 96 - remove score_header in next commit
 
     Hardcoded:
         ln.40 - correct_guess
