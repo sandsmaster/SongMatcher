@@ -35,8 +35,11 @@ class SongMatcherGame():
     def clear_scr(self):
         print("\033[H\033[J", end="")
 
+    def wait_user(self):
+        input("Press enter to continue...")
 
-    def show_menu(self, choice = "main", *args, clear_screen=True):
+
+    def show_menu(self, choice = "main", *args, clear_screen=False):
         if clear_screen:
             self.clear_scr()
         if choice == "main":
@@ -83,15 +86,17 @@ class SongMatcherGame():
 
         options_clean = list(map(self.del_extension, options)) # remove extensions before showing menu
 
-        self.show_menu("songs", *options_clean, clear_screen=False)
+        self.show_menu("songs", *options_clean, clear_screen=True)
         # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
         guess = int(self.pick_option([str(num + 1) for num in range(self.answer_count)])) - 1 # conver range() to str and decrease 1, 
                                                                                     # because user picks 1-based options
 
         if correct_guess == options[guess]:
             print("\nGood Job! You guessed right.\n")
+            self.wait_user()
             return True
         print("\nNice try, but you didn't guess.\n")
+        self.wait_user()
         return False
         
 
@@ -106,7 +111,7 @@ class SongMatcherGame():
     def save_highscore(self, score):
         with open(self.score_file_name, 'a') as file:
             name = input("What's your name?: ")
-            file.write(f"\n{name},{str(score)}")
+            file.write(f"\n\"{name}\",{str(score)}")
         
         print("Highscore successfully saved")
 
@@ -138,6 +143,7 @@ class SongMatcherGame():
             print("Song added successfully!")
         else:
             print("No song added.")
+        self.wait_user()
 
 
     def load_highscore(self):
@@ -164,6 +170,7 @@ class SongMatcherGame():
         else:   # if file doesn't exist
             print("Doesn't exist. \nCreating highscore file...")
             self.create_highscore_csv()
+        self.wait_user()
 
 
     def is_admin(self):
@@ -194,6 +201,7 @@ class SongMatcherGame():
                 self.highscore()
             elif choice == options[3]:  # q
                 break
+            self.clear_scr()
 
 
 if __name__ == "__main__":
