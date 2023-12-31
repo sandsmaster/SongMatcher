@@ -1,13 +1,12 @@
 import time
 from pyglet.media import Player, load
-import asyncio.futures
 from random import randint, shuffle, choice
 from os import listdir, path
 from shutil import copyfile
 import ctypes, sys
 import tkinter as tk
 from tkinter import filedialog
-from csv import DictReader, DictWriter, writer
+from csv import DictReader
 
 from tabulate import tabulate
 
@@ -16,8 +15,6 @@ CURR_PATH = path.abspath(r'.')
 def pick_option(picks_list, menu_arg = None):
     if menu_arg:
         show_menu()
-    # with asyncio.futures.ThreadPoolExecutor() as executor:
-    #     pass
     while True:
         choice = input("Pick an option: ").strip()
         if choice in picks_list:
@@ -56,15 +53,15 @@ def play_song_from_time(file_path, media_player, play_from = 0, random_time = Tr
 
 
 def play_round():
-    ANSWER_COUNT = 3
+    ANSWER_COUNT = 4
     options = listdir("samples/.")  # get all songs with "samples/" infront of them
     shuffle(options)
-    options = options[0:3]
+    options = options[0:ANSWER_COUNT]
     correct_guess = choice(options) # pick random song to play
     
     media_player = Player()
     play_song_from_time(f'samples/{correct_guess}', media_player, random_time=True)
-    print("Playing random part...")
+    print("Playing random song...")
 
     show_menu("songs", *options)
     # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
@@ -95,10 +92,12 @@ def save_highscore(score, score_file_name, score_header):
 
 
 def game(score_file_name, score_header):
+    ROUND_COUNT = 5
     new_game = True
+    
     while new_game:
         score = 0
-        for round_num in range(3):
+        for _ in range(ROUND_COUNT):
             if (play_round()):
                 score += 1
 
@@ -115,7 +114,7 @@ def add_song():
     dst = r"C:\Users\botcho\Desktop\Projects\Py Stuff\SongMatcher\samples" + "\\" + src.split("/")[-1]    # Take the name of the song
     print(dst)
     time.sleep(1)
-    if path.isfile(src):    
+    if path.isfile(src):
         copyfile(src, dst)
         print("Song added successfully!")
     else:

@@ -27,7 +27,9 @@ Plan:
 Notes:
     TO-DO:
         - Add function to sort highscores
+        - Limit highscores to 10 best records
         - Delete previous output 
+        - Rewrite code to be class based and not function based
 
     Hardcoded:
         ln.40 - correct_guess
