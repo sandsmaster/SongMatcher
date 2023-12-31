@@ -74,10 +74,14 @@ class SongMatcherGame():
         return song_name[:song_name.rfind(".")] # cut file extension from name (.mp3, .wav,...)
 
 
+    def get_songs(self):
+        options = listdir("samples/.")      # get all songs from samples/ folder
+        shuffle(options)                    # shuffle
+        return options[0:self.answer_count] # return n songs
+
+
     def play_round(self):
-        options = listdir("samples/.")  # get all songs from samples/ folder
-        shuffle(options)
-        options = options[0:self.answer_count]
+        options = self.get_songs()
         correct_guess = choice(options) # pick random song to play
         
         media_player = Player()
@@ -90,8 +94,11 @@ class SongMatcherGame():
         # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
         guess = int(self.pick_option([str(num + 1) for num in range(self.answer_count)])) - 1 # conver range() to str and decrease 1, 
                                                                                     # because user picks 1-based options
+        return self.is_correct_guess(correct_guess, options[guess])
 
-        if correct_guess == options[guess]:
+
+    def is_correct_guess(self, correct_guess, other_guess):
+        if correct_guess == other_guess:
             print("\nGood Job! You guessed right.\n")
             self.wait_user()
             return True
@@ -205,4 +212,4 @@ class SongMatcherGame():
 
 
 if __name__ == "__main__":
-    SongMatcherGame(round_count=5, answer_count=4).main()
+    SongMatcherGame(round_count=3, answer_count=4).main()
