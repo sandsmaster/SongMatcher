@@ -52,6 +52,10 @@ def play_song_from_time(file_path, media_player, play_from = 0, random_time = Tr
     media_player.play()
 
 
+def del_extension(song_name: str):
+    return song_name[:song_name.rfind(".")] # cut file extension from name (.mp3, .wav,...)
+
+
 def play_round():
     ANSWER_COUNT = 4
     options = listdir("samples/.")  # get all songs with "samples/" infront of them
@@ -63,8 +67,9 @@ def play_round():
     play_song_from_time(f'samples/{correct_guess}', media_player, random_time=True)
     print("Playing random song...")
 
-    show_menu("songs", *options)
-    # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
+    options_clean = list(map(del_extension, options)) # remove extensions before showing menu
+    show_menu("songs", *options_clean)
+    print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
     guess = int(pick_option([str(num + 1) for num in range(ANSWER_COUNT)])) - 1 # conver range() to str and decrease 1, 
                                                                                 # because user picks 1-based options
 
