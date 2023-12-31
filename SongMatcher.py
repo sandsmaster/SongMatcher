@@ -16,6 +16,10 @@ class SongMatcherGame():
     score_file_name = "highscore.csv"
     score_header = ["Player", "Score"]
 
+    def __init__(self, round_count, answer_count) -> None:
+        self.round_count = round_count
+        self.answer_count = answer_count
+
 
     def pick_option(self, picks_list, menu_arg = None):
         if menu_arg:
@@ -62,10 +66,9 @@ class SongMatcherGame():
 
 
     def play_round(self):
-        ANSWER_COUNT = 4
         options = listdir("samples/.")  # get all songs from samples/ folder
         shuffle(options)
-        options = options[0:ANSWER_COUNT]
+        options = options[0:self.answer_count]
         correct_guess = choice(options) # pick random song to play
         
         media_player = Player()
@@ -75,7 +78,7 @@ class SongMatcherGame():
         options_clean = list(map(self.del_extension, options)) # remove extensions before showing menu
         self.show_menu("songs", *options_clean)
         # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
-        guess = int(self.pick_option([str(num + 1) for num in range(ANSWER_COUNT)])) - 1 # conver range() to str and decrease 1, 
+        guess = int(self.pick_option([str(num + 1) for num in range(self.answer_count)])) - 1 # conver range() to str and decrease 1, 
                                                                                     # because user picks 1-based options
 
         if correct_guess == options[guess]:
@@ -102,12 +105,11 @@ class SongMatcherGame():
 
 
     def game(self):
-        ROUND_COUNT = 5
         new_game = True
         
         while new_game:
             score = 0
-            for _ in range(ROUND_COUNT):
+            for _ in range(self.round_count):
                 if (self.play_round()):
                     score += 1
 
@@ -188,4 +190,4 @@ class SongMatcherGame():
 
 
 if __name__ == "__main__":
-    SongMatcherGame().main()
+    SongMatcherGame(round_count=5, answer_count=4).main()
