@@ -11,6 +11,10 @@ from csv import DictReader
 from tabulate import tabulate
 
 
+def sort_scores(scores):
+        return sorted(scores, reverse=True, key=lambda score: score[1])
+
+
 class SongMatcherGame():
     CURR_PATH = path.abspath(r'.')    
     score_file_name = "highscore.csv"
@@ -158,8 +162,8 @@ class SongMatcherGame():
         with open(self.score_file_name, "r") as score_file:  # read highscores file
             score_csv = DictReader(score_file)
             for row in score_csv:
-                scores.append(row.values())
-        return scores
+                scores.append(list(row.values()))
+        return self.sort_scores(scores)
 
 
     def create_highscore_csv(self):
