@@ -22,8 +22,6 @@ class SongMatcherGame():
 
 
     def pick_option(self, picks_list, menu_arg = None):
-        if menu_arg:
-            self.show_menu()
         while True:
             choice = input("Pick an option: ").strip()
             if choice in picks_list:
@@ -74,8 +72,8 @@ class SongMatcherGame():
         return song_name[:song_name.rfind(".")] # cut file extension from name (.mp3, .wav,...)
 
 
-    def get_songs(self):
-        options = listdir("samples/.")      # get all songs from samples/ folder
+    def get_songs(self, sample_dir="samples/."):
+        options = listdir(sample_dir)      # get all songs from samples folder
         shuffle(options)                    # shuffle
         return options[0:self.answer_count] # return n songs
 
@@ -199,7 +197,8 @@ class SongMatcherGame():
         root.withdraw()
 
         while True:
-            choice = self.pick_option(options, "main")
+            self.show_menu()
+            choice = self.pick_option(options)
             if choice == options[0]:    # a
                 self.game()
             elif choice == options[1]:  # b
