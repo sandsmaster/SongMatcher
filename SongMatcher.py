@@ -15,6 +15,18 @@ def sort_scores(scores):
         return sorted(scores, reverse=True, key=lambda score: score[1])
 
 
+def del_extension(song_name: str):
+        return song_name[:song_name.rfind(".")] # cut file extension from name (.mp3, .wav,...)
+
+
+def is_correct_guess(correct_guess, other_guess):
+    if correct_guess == other_guess:
+        print("\nGood Job! You guessed right.\n")
+        return True
+    print("\nNice try, but you didn't guess.\n")
+    return False
+
+
 class SongMatcherGame():
     CURR_PATH = path.abspath(r'.')    
     score_file_name = "highscore.csv"
@@ -25,7 +37,7 @@ class SongMatcherGame():
         self.answer_count = answer_count
 
 
-    def pick_option(self, picks_list, menu_arg = None):
+    def pick_option(self, picks_list):
         while True:
             choice = input("Pick an option: ").strip()
             if choice in picks_list:
@@ -72,10 +84,6 @@ class SongMatcherGame():
         media_player.play()
 
 
-    def del_extension(self, song_name: str):
-        return song_name[:song_name.rfind(".")] # cut file extension from name (.mp3, .wav,...)
-
-
     def get_songs(self, sample_dir="samples/."):
         options = listdir(sample_dir)      # get all songs from samples folder
         shuffle(options)                    # shuffle
@@ -90,23 +98,15 @@ class SongMatcherGame():
         self.play_song_from_time(f'samples/{correct_guess}', media_player, random_time=True)
         print("Playing random song...")
 
-        options_clean = list(map(self.del_extension, options)) # remove extensions before showing menu
+        options_clean = list(map(del_extension, options)) # remove extensions before showing menu
 
         self.show_menu("songs", *options_clean, clear_screen=True)
         # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
         guess = int(self.pick_option([str(num + 1) for num in range(self.answer_count)])) - 1 # conver range() to str and decrease 1, 
                                                                                     # because user picks 1-based options
-        return self.is_correct_guess(correct_guess, options[guess])
-
-
-    def is_correct_guess(self, correct_guess, other_guess):
-        if correct_guess == other_guess:
-            print("\nGood Job! You guessed right.\n")
-            self.wait_user()
-            return True
-        print("\nNice try, but you didn't guess.\n")
-        self.wait_user()
-        return False
+        is_correct = is_correct_guess(correct_guess, options[guess])
+        self.wait_user()    # wait for user outside, because it's easier to test is_correct_guess
+        return is_correct
         
 
     def play_again(self, score):
@@ -163,7 +163,7 @@ class SongMatcherGame():
             score_csv = DictReader(score_file)
             for row in score_csv:
                 scores.append(list(row.values()))
-        return self.sort_scores(scores)
+        return sort_scores(scores)
 
 
     def create_highscore_csv(self):
