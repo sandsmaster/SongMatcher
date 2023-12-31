@@ -119,7 +119,9 @@ class SongMatcherGame():
 
     def save_highscore(self, score):
         with open(self.score_file_name, 'a') as file:
-            name = input("What's your name?: ")
+            name = input("What's your name? (Leave blank to skip): ").strip()
+            if not name:
+                return False
             file.write(f"\n\"{name}\",{str(score)}")
         
         print("Highscore successfully saved")
