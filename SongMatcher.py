@@ -134,6 +134,8 @@ class SongMatcherGame():
         
 
     def play_again(self, score):
+        if type(score) != int:
+            raise TypeError("Score must be an integer")
         print("\nThe game finished!")
         print(f"Your final score is {score}.")
         if input("Play again? (y)es/(n)o: ").strip().lower() in ["y", "yes"]:

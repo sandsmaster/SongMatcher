@@ -85,3 +85,9 @@ class TestSongMatcherGame:
             assert self.game_obj.play_song_from_time_check_par_type("C:\\Users\\me\\Desktop", "Insert player here", 0, True)
             assert self.game_obj.play_song_from_time_check_par_type("C:\\Users\\me\\Desktop", self.player_obj, "start time", True)
             assert self.game_obj.play_song_from_time_check_par_type("C:\\Users\\me\\Desktop", self.player_obj, 0, "True")
+
+    
+    def test_type_play_again(self):
+        with raises(TypeError):
+            assert self.game_obj.play_again("4")
+            assert self.game_obj.play_again(None)
