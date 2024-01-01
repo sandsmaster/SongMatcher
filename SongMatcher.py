@@ -177,7 +177,7 @@ class SongMatcherGame():
 
     def add_song(self):
         src = filedialog.askopenfilename()
-        dst = r"C:\Users\botcho\Desktop\Projects\Py Stuff\SongMatcher\samples" + "\\" + src.split("/")[-1]    # Take the name of the song
+        dst = self.CURR_PATH + r"\samples" + "\\" + src.split("/")[-1]    # Take the name of the song
         print(dst)
         time.sleep(1)
         if path.isfile(src):
@@ -196,8 +196,6 @@ class SongMatcherGame():
             score_csv = DictReader(score_file)
             for row in score_csv:
                 scores.append(list(row.values()))
-        print(scores)
-        self.wait_user()
         return sort_scores(scores, 1)
 
 
