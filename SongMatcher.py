@@ -93,6 +93,7 @@ class SongMatcherGame():
 
 
     def play_song_from_time(self, file_path, media_player, play_from = 0, random_time = True):
+        self.play_song_from_time_check_par_type(file_path, media_player, play_from, random_time)
         src = load(file_path)
         media_player.queue(src)
         if media_player.playing:
@@ -135,7 +136,8 @@ class SongMatcherGame():
 
     def play_again(self, score):
         if type(score) != int:
-            raise TypeError("Score must be an integer")
+            raise TypeError("Score must be an integer") # Error Handling
+
         print("\nThe game finished!")
         print(f"Your final score is {score}.")
         if input("Play again? (y)es/(n)o: ").strip().lower() in ["y", "yes"]:
@@ -144,6 +146,9 @@ class SongMatcherGame():
 
 
     def save_highscore(self, score):
+        if type(score) not in [int, str]:
+            raise TypeError("Score must be an integer or string")   # Error Handling
+        
         with open(self.score_file_name, 'a') as file:
             name = input("What's your name? (Leave blank to skip): ").strip()
             if not name:
