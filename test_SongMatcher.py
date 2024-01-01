@@ -1,4 +1,5 @@
 from SongMatcher import SongMatcherGame, del_extension, is_correct_guess, sort_scores
+from pyglet.media import Player
 from pytest import raises
 
 
@@ -70,9 +71,17 @@ def test_type_get_songs():
 
 class TestSongMatcherGame:
     game_obj = SongMatcherGame(3, 3)
+    player_obj = Player()
 
     def test_choice_show_menu(self):
         with raises(NameError):
             assert self.game_obj.show_menu("ok")
             assert self.game_obj.show_menu(1)
             assert self.game_obj.show_menu([])
+
+    def test_play_song_from_time_check_par_type(self):
+        with raises(TypeError):
+            assert self.game_obj.play_song_from_time_check_par_type(20, self.player_obj, 0, True)
+            assert self.game_obj.play_song_from_time_check_par_type("C:\\Users\\me\\Desktop", "Insert player here", 0, True)
+            assert self.game_obj.play_song_from_time_check_par_type("C:\\Users\\me\\Desktop", self.player_obj, "start time", True)
+            assert self.game_obj.play_song_from_time_check_par_type("C:\\Users\\me\\Desktop", self.player_obj, 0, "True")

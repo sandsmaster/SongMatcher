@@ -81,6 +81,17 @@ class SongMatcherGame():
             raise NameError("choice must be either 'menu' or 'songs'")
 
 
+    def play_song_from_time_check_par_type(self, file_path, media_player, play_from, random_time):
+        if type(file_path) != str:
+            raise TypeError("File path for song isn't string")
+        if type(media_player) != Player:
+            raise TypeError("Media player for song isn't of type Player from pyglet")
+        if type(play_from) != int:
+            raise TypeError("Song start time (play_from) for song isn't integer")
+        if type(random_time) != bool:
+            raise TypeError("random_time for song isn't boolean")
+
+
     def play_song_from_time(self, file_path, media_player, play_from = 0, random_time = True):
         src = load(file_path)
         media_player.queue(src)
