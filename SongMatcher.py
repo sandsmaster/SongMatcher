@@ -111,12 +111,16 @@ class SongMatcherGame():
 
     def get_songs(self, sample_dir="samples/."):
         options = listdir(sample_dir)      # get all songs from samples folder
+        if not options:                     # No songs in the list
+            return None
         shuffle(options)                    # shuffle
         return options[0:self.answer_count] # return n songs
 
 
     def play_round(self):
         options = self.get_songs()
+        if options == None:
+            return None
         correct_guess = choice(options) # pick random song to play
         
         media_player = Player()
@@ -164,8 +168,12 @@ class SongMatcherGame():
         while new_game:
             score = 0
             for _ in range(self.round_count):
-                if (self.play_round()):
+                if (self.play_round()) == True:
                     score += 1
+                elif (self.play_round()) == None:
+                    print("There are no songs in the samples folder. Please add a few to play")
+                    self.wait_user()
+                    break
 
             if not path.exists(path.join(self.CURR_PATH, self.score_file_name)):
                 print("File missing. Creating new one...")
