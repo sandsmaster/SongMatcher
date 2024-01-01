@@ -66,3 +66,13 @@ def test_len_get_songs():
 
 def test_type_get_songs():
     assert type(SongMatcherGame(3, 3).get_songs()[0]) == str
+
+
+class TestSongMatcherGame:
+    game_obj = SongMatcherGame(3, 3)
+
+    def test_choice_show_menu(self):
+        with raises(NameError):
+            assert self.game_obj.show_menu("ok")
+            assert self.game_obj.show_menu(1)
+            assert self.game_obj.show_menu([])

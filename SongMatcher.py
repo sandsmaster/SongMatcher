@@ -77,6 +77,8 @@ class SongMatcherGame():
             # args must have song names inside of it
             for i, song in enumerate(args):
                 print(f"{i + 1}) {song}")   # print the song name with option letter next to it
+        else:
+            raise NameError("choice must be either 'menu' or 'songs'")
 
 
     def play_song_from_time(self, file_path, media_player, play_from = 0, random_time = True):
