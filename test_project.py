@@ -1,4 +1,4 @@
-from SongMatcher import SongMatcherGame, del_extension, is_correct_guess, sort_scores
+from project import SongMatcherGame, del_extension, is_correct_guess, sort_scores
 from pyglet.media import Player
 from pytest import raises
 
