@@ -203,7 +203,6 @@ class SongMatcherGame():
 
 
     def load_highscore(self):
-        print("Reading Highscores\n")
         scores = []
 
         with open(self.score_file_name, "r") as score_file:  # read highscores file
@@ -219,6 +218,7 @@ class SongMatcherGame():
 
 
     def highscore(self):
+        self.clear_scr()
         if path.isfile(self.score_file_name):                            # if file exists
             scores = self.load_highscore()  # get highscore data
             print(tabulate(scores, self.score_header))                   # pretty print
@@ -226,6 +226,7 @@ class SongMatcherGame():
         else:   # if file doesn't exist
             print("Doesn't exist. \nCreating highscore file...")
             self.create_highscore_csv()
+        print()             # Separate highscore with next output
         self.wait_user()
 
 
