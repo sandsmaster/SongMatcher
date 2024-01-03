@@ -173,9 +173,10 @@ class SongMatcherGame():
         while new_game:
             score = 0
             for _ in range(self.round_count):
-                if (self.play_round()) == True:
+                round_result = self.play_round()
+                if (round_result) == True:
                     score += 1
-                elif (self.play_round()) == None:
+                elif (round_result) == None:
                     print("There are no songs in the samples folder. Please add a few to play")
                     self.wait_user()
                     break
