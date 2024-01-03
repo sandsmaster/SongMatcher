@@ -26,8 +26,6 @@ Plan:
 
 Notes:
     TO-DO:
-        - Add function to sort highscores
-        - Add additional defence to stand-alone functions
         - Limit highscores to 10 best records
         - Delete previous output 
         - Simplify functions by combining smaller ones

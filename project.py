@@ -1,4 +1,5 @@
 import time
+import colorama
 from pyglet.media import Player, load
 from random import randint, shuffle, choice
 from os import listdir, path
@@ -32,9 +33,11 @@ def del_extension(song_name: str):
 
 def is_correct_guess(correct_guess, other_guess):
     if correct_guess == other_guess:
-        print("\nGood Job! You guessed right.\n")
+        print(colorama.Fore.GREEN + "\nGood Job! You guessed right.\n")
+        print(colorama.Fore.RESET)
         return True
-    print("\nNice try, but you didn't guess.\n")
+    print(colorama.Fore.RED + "\nNice try, but you didn't guess.\n")
+    print(colorama.Fore.RESET)
     return False
 
 
@@ -68,15 +71,17 @@ class SongMatcherGame():
         if clear_screen:
             self.clear_scr()
         if choice == "main":
-            print("a) Play game")
-            print("b) Add a song")
-            print("c) Highscores")
-            print("q) Exit")
+            print(colorama.Fore.BLUE + "a) Play game")
+            print(colorama.Fore.BLUE + "b) Add a song")
+            print(colorama.Fore.BLUE + "c) Highscores")
+            print(colorama.Fore.RED + "q) Exit")
+            print(colorama.Fore.RESET)
         elif choice == "songs":
             print("\nWhich is the song playing?:")
             # args must have song names inside of it
             for i, song in enumerate(args):
-                print(f"{i + 1}) {song}")   # print the song name with option letter next to it
+                print(colorama.Fore.BLUE + f"{i + 1}) {song}", end="")   # print the song name with option letter next to it
+                print(colorama.Fore.RESET)
         else:
             raise NameError("choice must be either 'menu' or 'songs'")
 
@@ -242,6 +247,7 @@ class SongMatcherGame():
         root.withdraw()
 
         while True:
+            self.clear_scr()
             self.show_menu()
             choice = self.pick_option(options)
             if choice == options[0]:    # a
@@ -252,7 +258,6 @@ class SongMatcherGame():
                 self.highscore()
             elif choice == options[3]:  # q
                 break
-            self.clear_scr()
 
 
 if __name__ == "__main__":
