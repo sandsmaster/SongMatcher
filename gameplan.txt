@@ -27,8 +27,6 @@ Plan:
 Notes:
     TO-DO:
         - Limit highscores to 10 best records
-        - Delete previous output 
-        - Simplify functions by combining smaller ones
 
     Hardcoded:
         ln.40 - correct_guess

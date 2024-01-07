@@ -45,6 +45,7 @@ class SongMatcherGame():
     CURR_PATH = path.abspath(r'.')    
     score_file_name = "highscore.csv"
     score_header = ["Player", "Score"]
+    root = tk.Tk()  # used to open file dialog
 
     def __init__(self, round_count, answer_count) -> None:
         self.round_count = round_count
@@ -190,6 +191,7 @@ class SongMatcherGame():
 
 
     def add_song(self):
+        self.root.call('wm', 'attributes', '.', '-topmost', True)
         src = filedialog.askopenfilename()
         dst = self.CURR_PATH + r"\samples" + "\\" + src.split("/")[-1]    # Take the name of the song
         print(dst)
@@ -245,8 +247,7 @@ class SongMatcherGame():
     def main(self):
         #get_admin()
         options = ["a", "b", "c", "q"]
-        root = tk.Tk()  # used to open file dialog
-        root.withdraw()
+        self.root.withdraw()
 
         while True:
             self.clear_scr()
