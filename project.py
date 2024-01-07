@@ -263,5 +263,9 @@ class SongMatcherGame():
                 break
 
 
-if __name__ == "__main__":
+def main():
     SongMatcherGame(round_count=3, answer_count=4).main()
+
+
+if __name__ == "__main__":
+    main()
