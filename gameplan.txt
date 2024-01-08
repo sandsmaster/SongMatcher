@@ -7,16 +7,15 @@ Details:
 
 Plan:
     for a):
-        Add multithreading to play the song
-        Add multithreading for timer. Points will depend on the time it took you to guess the song
-        Add multithreading to get the answer
+        Play the song
+        Get the answer
         Ask for player name in the end
         For guessing:
             (Easier) Add a list of answers to choose from
-            (Harder) Add string distance to make the answer not exact 
+            (Harder) Use string distance to help recognize the answer if it's not exact 
     for b):
-        Add a list for the directories of songs
-        Add possibility to download from url
+        Add a list for the directories of songs / file explorer
+        Add possibility to download from url with requests library
     for c):
         Add CSV file to save the player Highscores
             - Create it if it's not there
