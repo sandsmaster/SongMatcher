@@ -41,6 +41,47 @@ def is_correct_guess(correct_guess, other_guess):
     return False
 
 
+def pick_option(picks_list):
+    while True:
+        choice = input("Pick an option: ").strip()
+        if choice in picks_list:
+            return choice
+        else:
+            print(f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
+
+
+def pick_number(message, min=None, max=None):
+    number = 0
+    while True:
+        try:
+            number = int(input(message))
+        except ValueError:
+            clear_scr()
+            print("You need to pick a NUMBER. This isn't one")
+            continue
+
+        if min is not None:
+            if number < min:
+                clear_scr()
+                print(f"Number must be bigger than {min}")
+                continue
+        if max is not None:
+            if number > max:
+                clear_scr()
+                print(f"Number must be smaller than {max}")
+                continue
+    
+        return number
+    
+
+def clear_scr():
+    print("\033[H\033[J", end="")
+
+
+def wait_user():
+    input("Press enter to continue...")
+
+
 class SongMatcherGame():
     CURR_PATH = path.abspath(r'.')    
     score_file_name = "highscore.csv"
@@ -52,49 +93,9 @@ class SongMatcherGame():
         self.answer_count = answer_count
 
 
-    def pick_option(self, picks_list):
-        while True:
-            choice = input("Pick an option: ").strip()
-            if choice in picks_list:
-                return choice
-            else:
-                print(f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
-
-
-    def pick_number(self, message, min=None, max=None):
-        number = 0
-        while True:
-            try:
-                number = int(input(message))
-            except ValueError:
-                self.clear_scr()
-                print("You need to pick a NUMBER. This isn't one")
-                continue
-
-            if min is not None:
-                if number < min:
-                    self.clear_scr()
-                    print(f"Number must be bigger than {min}")
-                    continue
-            if max is not None:
-                if number > max:
-                    self.clear_scr()
-                    print(f"Number must be smaller than {max}")
-                    continue
-            
-            return number
-            
-
-    def clear_scr(self):
-        print("\033[H\033[J", end="")
-
-    def wait_user(self):
-        input("Press enter to continue...")
-
-
     def show_menu(self, choice = "main", *args, clear_screen=False):
         if clear_screen:
-            self.clear_scr()
+            clear_scr()
         if choice == "main":
             print(colorama.Fore.BLUE + "a) Play game")
             print(colorama.Fore.BLUE + "b) Add a song")
@@ -167,10 +168,10 @@ class SongMatcherGame():
 
         self.show_menu("songs", *options_clean, clear_screen=True)
         # print(f"Hint: Pick {correct_guess} to guess right")   # cheat code :d
-        guess = int(self.pick_option([str(num + 1) for num in range(self.answer_count)])) - 1 # conver range() to str and decrease 1, 
+        guess = int(pick_option([str(num + 1) for num in range(self.answer_count)])) - 1 # conver range() to str and decrease 1, 
                                                                                     # because user picks 1-based options
         is_correct = is_correct_guess(correct_guess, options[guess])
-        self.wait_user()    # wait for user outside, because it's easier to test is_correct_guess
+        wait_user()    # wait for user outside, because it's easier to test is_correct_guess
         return is_correct
         
 
@@ -209,7 +210,7 @@ class SongMatcherGame():
                     score += 1
                 elif (round_result) == None:
                     print("There are no songs in the samples folder. Please add a few to play")
-                    self.wait_user()
+                    wait_user()
                     break
 
             if not path.exists(path.join(self.CURR_PATH, self.score_file_name)):
@@ -231,7 +232,7 @@ class SongMatcherGame():
             print("Song added successfully!")
         else:
             print("No song added.")
-        self.wait_user()
+        wait_user()
 
 
     def load_highscore(self):
@@ -250,7 +251,7 @@ class SongMatcherGame():
 
 
     def highscore(self):
-        self.clear_scr()
+        clear_scr()
         if path.isfile(self.score_file_name):                            # if file exists
             scores = self.load_highscore()  # get highscore data
             print(tabulate(scores, self.score_header))                   # pretty print
@@ -259,20 +260,20 @@ class SongMatcherGame():
             print("Doesn't exist. \nCreating highscore file...")
             self.create_highscore_csv()
         print()             # Separate highscore with next output
-        self.wait_user()
+        wait_user()
 
 
     def settings(self):
         setting_options = ["1", "2", "q"]
         while True:
-            self.clear_scr()
+            clear_scr()
             self.show_menu("settings")
-            pick = self.pick_option(setting_options)
+            pick = pick_option(setting_options)
 
             if pick == "1":
-                self.round_count = self.pick_number("Change round count to: ", min=1)
+                self.round_count = pick_number("Change round count to: ", min=1)
             elif pick == "2":
-                self.answer_count = self.pick_number("Change answer count to: ", min=2)
+                self.answer_count = pick_number("Change answer count to: ", min=2)
             elif pick == "q":
                 break
 
@@ -295,9 +296,9 @@ class SongMatcherGame():
         self.root.withdraw()
 
         while True:
-            self.clear_scr()
+            clear_scr()
             self.show_menu()
-            choice = self.pick_option(options)
+            choice = pick_option(options)
             if choice == options[0]:    # a
                 self.game()
             elif choice == options[1]:  # b
@@ -309,7 +310,7 @@ class SongMatcherGame():
             elif choice == options[4]:  # q
                 break
             
-        self.clear_scr()
+        clear_scr()
 
 
 def main():
