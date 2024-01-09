@@ -61,6 +61,30 @@ class SongMatcherGame():
                 print(f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
 
 
+    def pick_number(self, message, min=None, max=None):
+        number = 0
+        while True:
+            try:
+                number = int(input(message))
+            except ValueError:
+                self.clear_scr()
+                print("You need to pick a NUMBER. This isn't one")
+                continue
+
+            if min is not None:
+                if number < min:
+                    self.clear_scr()
+                    print(f"Number must be bigger than {min}")
+                    continue
+            if max is not None:
+                if number > max:
+                    self.clear_scr()
+                    print(f"Number must be smaller than {max}")
+                    continue
+            
+            return number
+            
+
     def clear_scr(self):
         print("\033[H\033[J", end="")
 
@@ -176,7 +200,7 @@ class SongMatcherGame():
 
     def game(self):
         new_game = True
-        
+
         while new_game:
             score = 0
             for _ in range(self.round_count):
@@ -246,12 +270,11 @@ class SongMatcherGame():
             pick = self.pick_option(setting_options)
 
             if pick == "1":
-                self.round_count = int(input("Change round count to: "))
+                self.round_count = self.pick_number("Change round count to: ", min=1)
             elif pick == "2":
-                self.answer_count = int(input("Change answer count to: "))
+                self.answer_count = self.pick_number("Change answer count to: ", min=2)
             elif pick == "q":
-                break    
-            self.wait_user()
+                break
 
 
     def is_admin(self):
