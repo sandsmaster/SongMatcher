@@ -75,6 +75,7 @@ class SongMatcherGame():
             print(colorama.Fore.BLUE + "a) Play game")
             print(colorama.Fore.BLUE + "b) Add a song")
             print(colorama.Fore.BLUE + "c) Highscores")
+            print(colorama.Fore.BLUE + "d) Settings")
             print(colorama.Fore.RED + "q) Exit")
             print(colorama.Fore.RESET)
         elif choice == "songs":
@@ -83,6 +84,11 @@ class SongMatcherGame():
             for i, song in enumerate(args):
                 print(colorama.Fore.BLUE + f"{i + 1}) {song}", end="")   # print the song name with option letter next to it
                 print(colorama.Fore.RESET)
+        elif choice == "settings":
+            print(f"1) Round count [{self.round_count}]")
+            print(f"2) Answer count [{self.answer_count}]")
+            print(colorama.Fore.RED + f"q) Quit")
+            print(colorama.Fore.RESET)
         else:
             raise NameError("choice must be either 'menu' or 'songs'")
 
@@ -232,6 +238,22 @@ class SongMatcherGame():
         self.wait_user()
 
 
+    def settings(self):
+        setting_options = ["1", "2", "q"]
+        while True:
+            self.clear_scr()
+            self.show_menu("settings")
+            pick = self.pick_option(setting_options)
+
+            if pick == "1":
+                self.round_count = int(input("Change round count to: "))
+            elif pick == "2":
+                self.answer_count = int(input("Change answer count to: "))
+            elif pick == "q":
+                break    
+            self.wait_user()
+
+
     def is_admin(self):
         try:
             return ctypes.windll.shell32.IsUserAnAdmin()
@@ -246,7 +268,7 @@ class SongMatcherGame():
 
     def main(self):
         #get_admin()
-        options = ["a", "b", "c", "q"]
+        options = ["a", "b", "c", "d", "q"]
         self.root.withdraw()
 
         while True:
@@ -259,7 +281,9 @@ class SongMatcherGame():
                 self.add_song()
             elif choice == options[2]:  # c
                 self.highscore()
-            elif choice == options[3]:  # q
+            elif choice == options[3]:  # c:
+                self.settings()
+            elif choice == options[4]:  # q
                 break
 
 
