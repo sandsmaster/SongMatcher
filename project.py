@@ -13,22 +13,22 @@ from tabulate import tabulate
 
 
 def sort_scores(scores, sort_col_num):
-        if type(scores) != list:
-            raise TypeError("Scores is not a list!")
-        if len(scores) <= 0:
-            raise IndexError("No items inside of scores!")
-        if type(scores[0]) != list:
-            raise TypeError("Scores doesn't contain lists of scores!")
-        
-        return sorted(scores, reverse=True, key=lambda score: score[sort_col_num])  # return sorted scores
+    if type(scores) != list:
+        raise TypeError("Scores is not a list!")
+    if len(scores) <= 0:
+        raise IndexError("No items inside of scores!")
+    if type(scores[0]) != list:
+        raise TypeError("Scores doesn't contain lists of scores!")
+    
+    return sorted(scores, reverse=True, key=lambda score: score[sort_col_num])  # return sorted scores
 
 
 def del_extension(song_name: str):
-        if type(song_name) != str:
-            raise TypeError("You must pass a string")
-        if song_name.find(".") == -1 or song_name[-1] == ".":
-            raise IndexError("Couldn't find . (dot). This is not a valid file name")
-        return song_name[:song_name.rfind(".")] # cut file extension from name (.mp3, .wav,...)
+    if type(song_name) != str:
+        raise TypeError("You must pass a string")
+    if song_name.find(".") == -1 or song_name[-1] == ".":
+        raise IndexError("Couldn't find . (dot). This is not a valid file name")
+    return song_name[:song_name.rfind(".")] # cut file extension from name (.mp3, .wav,...)
 
 
 def is_correct_guess(correct_guess, other_guess):
