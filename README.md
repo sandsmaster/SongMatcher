@@ -58,6 +58,16 @@ Here's how the highscore looks like:
 
 ![Highscore image](/doc%20images/highscore.png)
 
+### Settings
+
+The game has a settings menu as well. Currently it looks like this:
+
+![Settings image](/doc%20images/settings.png)
+
+You can set the number of rounds and possible answers to pick from.
+
+Also there's type and range checking. Rounds must be more than 0. Answers must be more than 1
+
 ### Miscellaneous:
 
 Additional functions are:

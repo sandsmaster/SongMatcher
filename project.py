@@ -308,6 +308,8 @@ class SongMatcherGame():
                 self.settings()
             elif choice == options[4]:  # q
                 break
+            
+        self.clear_scr()
 
 
 def main():
