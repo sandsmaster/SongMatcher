@@ -41,13 +41,18 @@ def is_correct_guess(correct_guess, other_guess):
     return False
 
 
+def color_print(color, msg):
+    print(color + msg)
+    print(colorama.Fore.RESET)
+
+
 def pick_option(picks_list):
     while True:
         choice = input("Pick an option: ").strip()
         if choice in picks_list:
             return choice
         else:
-            print(f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
+            color_print(colorama.Fore.RED, f"You need to pick from the list\nThe List: {', '.join(picks_list)}")
 
 
 def pick_number(message, min=None, max=None):
@@ -57,18 +62,18 @@ def pick_number(message, min=None, max=None):
             number = int(input(message))
         except ValueError:
             clear_scr()
-            print("You need to pick a NUMBER. This isn't one")
+            color_print(colorama.Fore.RED, "You need to pick a NUMBER. This isn't one")
             continue
 
         if min is not None:
             if number < min:
                 clear_scr()
-                print(f"Number must be bigger than {min - 1}")
+                color_print(colorama.Fore.RED, f"Number must be bigger than {min - 1}")
                 continue
         if max is not None:
             if number > max:
                 clear_scr()
-                print(f"Number must be smaller than {max + 1}")
+                color_print(colorama.Fore.RED, f"Number must be smaller than {max + 1}")
                 continue
     
         return number
