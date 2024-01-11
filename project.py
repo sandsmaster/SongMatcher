@@ -63,12 +63,12 @@ def pick_number(message, min=None, max=None):
         if min is not None:
             if number < min:
                 clear_scr()
-                print(f"Number must be bigger than {min}")
+                print(f"Number must be bigger than {min - 1}")
                 continue
         if max is not None:
             if number > max:
                 clear_scr()
-                print(f"Number must be smaller than {max}")
+                print(f"Number must be smaller than {max + 1}")
                 continue
     
         return number
