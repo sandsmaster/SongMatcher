@@ -1,5 +1,5 @@
 .venv
-samples
+samples/*.mp3
 .pytest_cache
 __pycache__
 highscore.csv
