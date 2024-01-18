@@ -163,6 +163,10 @@ class SongMatcherGame():
             print("There are no songs in the samples folder. Please add a few to play")
             wait_user()        
             return None
+        if len(options) < self.answer_count:    # Less songs then needed wanted
+            print(f"There are not enough songs in samples folder. Please add more songs or change answer count from settings")
+            wait_user()
+            return None
         shuffle(options)                    # shuffle
         return options[0:self.answer_count] # return n songs
 
