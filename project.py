@@ -2,7 +2,7 @@ import time
 import colorama
 from pyglet.media import Player, load
 from random import randint, shuffle, choice
-from os import listdir, path
+from os import listdir, path, mkdir
 from shutil import copyfile
 import ctypes, sys
 import tkinter as tk
@@ -152,8 +152,16 @@ class SongMatcherGame():
 
 
     def get_songs(self, sample_dir="samples/."):
-        options = listdir(sample_dir)      # get all songs from samples folder
+        try:
+            options = listdir(sample_dir)      # get all songs from samples folder
+        except FileNotFoundError:
+            print("Samples folder doesn't exist. Creating one...")
+            sample_dir = path.join(self.CURR_PATH,"samples/.")
+            mkdir(sample_dir)
+            return None
         if not options:                     # No songs in the list
+            print("There are no songs in the samples folder. Please add a few to play")
+            wait_user()        
             return None
         shuffle(options)                    # shuffle
         return options[0:self.answer_count] # return n songs
@@ -214,9 +222,7 @@ class SongMatcherGame():
                 if (round_result) == True:
                     score += 1
                 elif (round_result) == None:
-                    print("There are no songs in the samples folder. Please add a few to play")
-                    wait_user()
-                    break
+                    return False
 
             if not path.exists(path.join(self.CURR_PATH, self.score_file_name)):
                 print("File missing. Creating new one...")
