@@ -68,6 +68,34 @@ You can set the number of rounds and possible answers to pick from.
 
 Also there's type and range checking. Rounds must be more than 0. Answers must be more than 1
 
+### Error Handling
+
+If you pass in a wrong option, when you are given a choice, you will get reminded you can't pick that one.
+The most basic example of this is with picking an option in the main menu. 
+
+Picking the incorrect one will display a warning. See below:
+
+![Main menu error handling](./doc%20images/main_menu_error.png)
+
+When changing the settings in the settings menu, you also get these warnings:
+- Non-string input - "You need to pick a NUMBER. This isn't one"
+- Round count too low - "Number must be bigger than 0"
+- Answer count too low - "Number must be bigger than 1"
+
+The script checks for the samples folder and highscore.csv file as well, to make sure they exist. If they don't, they are created by the program. 
+
+Samples folder not found error:
+
+![Samples folder not found error message](./doc%20images/samples_not_exist_error.png)
+
+Highscore.csv file not found error:
+
+![Highscore.csv file not found error message](./doc%20images/highscore_not_exist_error.png)
+
+There is also a check for songs, inside of the samples folder. If none are found, an error shows up:
+
+![No songs error message](./doc%20images/no_songs_found_error.png)
+
 ### Miscellaneous:
 
 Additional functions are:

@@ -155,16 +155,17 @@ class SongMatcherGame():
         try:
             options = listdir(sample_dir)      # get all songs from samples folder
         except FileNotFoundError:
-            print("Samples folder doesn't exist. Creating one...")
+            color_print(colorama.Fore.RED, "Samples folder doesn't exist. Creating one...")
             sample_dir = path.join(self.CURR_PATH,"samples/.")
             mkdir(sample_dir)
+            wait_user()
             return None
         if not options:                     # No songs in the list
-            print("There are no songs in the samples folder. Please add a few to play")
+            color_print(colorama.Fore.RED, "There are no songs in the samples folder. Please add a few to play")
             wait_user()        
             return None
         if len(options) < self.answer_count:    # Less songs then needed wanted
-            print(f"There are not enough songs in samples folder. Please add more songs or change answer count from settings")
+            color_print(colorama.Fore.RED, f"There are not enough songs in samples folder. Please add more songs or change answer count from settings")
             wait_user()
             return None
         shuffle(options)                    # shuffle
